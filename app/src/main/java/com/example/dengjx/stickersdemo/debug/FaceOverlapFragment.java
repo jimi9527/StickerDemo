@@ -46,7 +46,7 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 	private byte nv21[];
 	private Bitmap bitmap;
 	public static int fps;
-	static boolean DEBUG = false;
+	static boolean DEBUG = true;
 	private boolean isNV21ready = false;
 
 	@SuppressLint("NewApi")
@@ -134,13 +134,14 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 					 */
 					long start_track = System.currentTimeMillis();
 //					STMobile106[] faces = tracker.track(tmp, dir,PREVIEW_WIDTH,PREVIEW_HEIGHT);
-					Log.d("lalala", "dir st-test: "+dir);
+					Log.d(TAG, "dir st-test: "+dir);
 					STMobileFaceAction[] faceActions = tracker.trackFaceAction(tmp, dir, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 					long end_track = System.currentTimeMillis();
-					Log.i("track106", "track cost "+(end_track - start_track)+" ms");
+					Log.i(TAG, "track cost :"+(end_track - start_track)+" ms");
 
 					long timer = System.currentTimeMillis();
 					timeCounter.add(timer);
+
 					while (start < timeCounter.size()
 							&& timeCounter.get(start) < timer - 1000) {
 						start++;
@@ -161,7 +162,7 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 								timeCounter.size() - 1);
 						start = 0;
 					}
-
+					Log.d(TAG, "faceActions: "+faceActions);
 					/**
 					 * 绘制人脸框
 					 */
@@ -171,7 +172,7 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 //							for (int i = 0; i < faces.length; i++) {
 							for(int i=0; i<faceActions.length; i++) {
 //								Log.i("Test", "detect faces: "+ faces[i].getRect().toString());
-								Log.i("Test", "detect faces: "+ faceActions[i].getFace().getRect().toString());
+								Log.i(TAG, "detect faces: "+ faceActions[i].getFace().getRect().toString());
 							}
 						}
 						
