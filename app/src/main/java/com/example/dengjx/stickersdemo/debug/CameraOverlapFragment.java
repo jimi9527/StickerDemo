@@ -177,6 +177,7 @@ public class CameraOverlapFragment extends Fragment {
 					// Front camera will display mirrored on the preview
 					int orientation = CameraFacing == CameraInfo.CAMERA_FACING_FRONT ? 360 - mCameraInfo.orientation : mCameraInfo.orientation;
 					mCamera.setDisplayOrientation(orientation);
+					Log.d(TAG, "orientation:"+orientation);
 					Log.d(TAG, "orientation: portrait");
 				} else {
 					parameters.set("orientation", "landscape");
