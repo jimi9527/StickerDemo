@@ -2,6 +2,7 @@ package com.example.dengjx.stickersdemo.debug;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.dengjx.stickersdemo.R;
 import com.sensetime.stmobileapi.STMobileFaceAction;
 import com.sensetime.stmobileapi.STMobileMultiTrack106;
 import com.sensetime.stmobileapi.STUtils;
@@ -119,7 +121,8 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 					 * 获取重力传感器返回的方向
 					 */
 					int dir = Accelerometer.getDirection();
-
+					Log.d(TAG, "dir: "+dir);
+					Log.d(TAG, "mCameraInfo.orientation: "+mCameraInfo.orientation);
 					/**
 					 * 请注意前置摄像头与后置摄像头旋转定义不同
 					 * 请注意不同手机摄像头旋转定义不同
@@ -198,8 +201,8 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 								rect = STUtils.RotateDeg90(r.getFace().getRect(), PREVIEW_WIDTH, PREVIEW_HEIGHT);
 							}
 							
-//							PointF[] points = r.getPointsArray();
-							PointF[] points = r.getFace().getPointsArray();
+//						/*	PointF[] points = r.getPointsArray();
+						/*	PointF[] points = r.getFace().getPointsArray();
 							for (int i = 0; i < points.length; i++) {
 								if (rotate270) {
 									points[i] = STUtils.RotateDeg270(points[i], PREVIEW_WIDTH, PREVIEW_HEIGHT);
@@ -207,11 +210,18 @@ public class FaceOverlapFragment extends CameraOverlapFragment {
 									points[i] = STUtils.RotateDeg90(points[i], PREVIEW_WIDTH, PREVIEW_HEIGHT);
 								}
 								
-							}
+							}*/
 							STUtils.drawFaceRect(canvas, rect, PREVIEW_HEIGHT,
 									PREVIEW_WIDTH, frontCamera);
-							STUtils.drawPoints(canvas, points, PREVIEW_HEIGHT,
-									PREVIEW_WIDTH, frontCamera);
+							BitmapFactory.Options options = new BitmapFactory.Options();
+							options.inSampleSize = 4;
+							Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.batman,options);
+							Rect rectShow = new Rect(0,0,bitmap.getWidth(),bitmap.getHeight());
+
+							canvas.drawBitmap(bitmap,rectShow,rect,null);
+
+						//	STUtils.drawPoints(canvas, points, PREVIEW_HEIGHT,
+						//			PREVIEW_WIDTH, frontCamera);
 
 						}
 						mOverlap.getHolder().unlockCanvasAndPost(canvas);

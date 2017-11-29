@@ -22,18 +22,22 @@ public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback
         this(context,null);
     }
 
+    public MyCamera getmMyCamera(){
+        return mMyCamera;
+    }
+
     public MySurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
         surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
+        mMyCamera = new MyCamera(context);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         Log.i(TAG, "surfaceCreated...");
-        if (mMyCamera == null) {
-           mMyCamera = new MyCamera(context);
+        if (mMyCamera != null) {
            mMyCamera.startHodeler(surfaceHolder);
         }
     }

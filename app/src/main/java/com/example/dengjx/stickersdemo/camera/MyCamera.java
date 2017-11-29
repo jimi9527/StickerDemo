@@ -64,6 +64,16 @@ public class MyCamera {
         }
 
     }
+    public Camera.CameraInfo getmCameraInfo(){
+        if(mCameraInfo == null){
+            Camera.CameraInfo info = new Camera.CameraInfo();
+            Camera.getCameraInfo(1, info);
+            mCameraInfo = info;
+        }
+        return mCameraInfo;
+    }
+
+
     public void startPView(){
         if(mCamera != null){
             mCamera.startPreview();
@@ -125,9 +135,9 @@ public class MyCamera {
                     public void onPreviewFrame(byte[] bytes, Camera camera) {
                         Log.d(TAG, "onPreviewFrame ");
                         Log.d(TAG, "this.iPreView:"+mIPreView);
-                      /*  if(mIPreView != null){
+                        if(mIPreView != null){
                             mIPreView.onPreView(bytes,camera);
-                        }*/
+                        }
                     }
                 });
 
