@@ -8,6 +8,7 @@ import android.opengl.GLES20;
 import com.example.dengjx.stickersdemo.R;
 import com.example.dengjx.stickersdemo.util.ShaderUtil;
 
+import java.nio.FloatBuffer;
 import java.util.LinkedList;
 
 /**
@@ -133,5 +134,129 @@ public class GPUImageFilter {
         this.bc = false;
     }
     public void releaseNoGLESRes() {}
-    public final
+    public final void destory(){
+        C();
+
+        this.aU = false;
+        GLES20.glDeleteProgram(this.aO);
+        onDestroy();
+    }
+    public void onDestroy() {}
+    public void onOutputSizeChanged(int paramInt, int paramInt2){
+        this.aS = paramInt;
+        this.aT = paramInt2;
+    }
+    public int y()
+    {
+        return 3553;
+    }
+
+    public void onDraw(int paramInt, FloatBuffer paramFloatBuffer1, FloatBuffer paramFloatBuffer2){
+        z();
+        GLES20.glUseProgram(this.aO);
+        C();
+        if(!this.aU){
+            return;
+        }
+        paramFloatBuffer1.position(0);
+        GLES20.glVertexAttribPointer(this.aP, 2, 5126,false, 0, paramFloatBuffer1);
+        GLES20.glEnableVertexAttribArray(this.aP);
+        paramFloatBuffer2.position(0);
+        GLES20.glVertexAttribPointer(this.aR, 2, 5126, false, 0, paramFloatBuffer2);
+        GLES20.glEnableVertexAttribArray(this.aR);
+
+        if(paramInt != -1){
+            GLES20.glActiveTexture(33984);
+            GLES20.glBindTexture(y(), paramInt);
+            GLES20.glUniform1f(this.aQ, 0);
+        }
+        d(paramInt);
+    }
+
+    protected void d(int paramInt){
+        if (-1 != this.bd) {
+            i(this.bd, 1);
+        }
+        if (-1 != this.be) {
+            i(this.be, this.aS);
+        }
+        if (-1 != this.bf) {
+            i(this.bf, this.aT);
+        }
+        if (-1 != this.bg) {
+            i(this.bg, this.aY ? 1 : 0);
+        }
+    }
+
+    protected void i(int paramInt1, int paramInt2)
+    {
+        GLES20.glUniform1i(paramInt1, paramInt2);
+    }
+    protected  void setFloat(int paramInt, float paramFloat){
+        GLES20.glUniform1f(paramInt, paramFloat);
+    }
+    protected void a(int paramInt, float[] paramArrayOfFloat){
+        GLES20.glUniform2fv(paramInt, 1, FloatBuffer.wrap(paramArrayOfFloat));
+    }
+    protected void a(int paramInt, PointF paramPointF){
+        float[] arrayOfFloat = new float[2];
+        arrayOfFloat[0] = paramPointF.x;
+        arrayOfFloat[1] = paramPointF.y;
+        GLES20.glUniform2fv(paramInt, 1, arrayOfFloat, 0);
+    }
+    protected void setUniformMatrix4f(int paramInt, float[] paramArrayOfFloat)
+    {
+        GLES20.glUniformMatrix4fv(paramInt, 1, false, paramArrayOfFloat, 0);
+    }
+    protected double a(float paramFloat1, float paramFloat2, float paramFloat3, float paramFloat4)
+    {
+        return Math.sqrt((paramFloat1 - paramFloat3) * (paramFloat1 - paramFloat3) + (paramFloat2 - paramFloat4) * (paramFloat2 - paramFloat4));
+    }
+    public void addTask(Runnable paramRunnable)
+    {
+        synchronized (this.al)
+        {
+            this.al.addLast(paramRunnable);
+        }
+    }
+
+    protected void z() {}
+    public void b(float[] paramArrayOfFloat)
+    {
+        this.bb = paramArrayOfFloat;
+    }
+
+    public void f(int paramInt)
+    {
+        this.bi = paramInt;
+    }
+
+    public int[] D()
+    {
+        return new int[] { this.bi, this.bj, this.bk };
+    }
+
+    public void a(int paramInt1, int paramInt2, int paramInt3)
+    {
+        addTask(new UnnamedD(this, paramInt1, paramInt2, paramInt3));
+    }
+
+    protected void C() {
+        LinkedList localLinkedList = new LinkedList();
+        synchronized (this.al){
+            for(Runnable localRunable : this.al){
+                localLinkedList.add(localRunable);
+            }
+            this.al.clear();
+        }
+        while (!localLinkedList.isEmpty()){
+            ((Runnable)localLinkedList.removeFirst()).run();
+        }
+
+    }
+
+    public boolean isInitialized()
+    {
+        return this.aU;
+    }
 }
